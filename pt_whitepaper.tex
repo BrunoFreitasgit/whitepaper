@@ -174,8 +174,9 @@ Pela razões acima destacadas, soluções puramente baseadas em blockchain têm 
 Loopring não é uma DEX, mas um protocolo modular para construir DEXs em múltiplas blockchains. Desmontámos as partes constituintes de uma "exchange" tradicional, e oferecemos um conjunto de contratos públicos inteligentes e atores descentralizados no lugar dela. As funções da rede incluem carteiras, blockchains de consórcio com partilha de liquidez, navegadores de caderno de ordens, Ring-Miners e serviços para tokenização de ativos. Antes de definir cada uma, devemos primeiro perceber as ordens no Loopring.
 %Loopring is not a DEX, but a modular protocol for building DEXs on multiple blockchains. We disassemble the component parts of a traditional exchange and offer a set of public smart contracts and decentralized actors in its place. The roles in the network include wallets, relays, liquidity-sharing consortium blockchains, order book browsers, Ring-Miners, and asset tokenization services. Before defining each, we should first understand Loopring orders. 
 
-\subsection{Order Ring\label{sec:order_ring}}
-Loopring orders are expressed in what we call a Unidirectional Order Model (UDOM)\cite{coinport2014udom}. UDOM expresses orders as token exchange requests, \verb|amountS|/\verb|amountB|, (amount to sell/buy)  instead of bids and asks. Since every order is just an exchange rate between two tokens, a powerful feature of the protocol is the mixing and matching of multiple orders in circular trade. By using up to 16 orders instead of a single trading pair, there is a dramatic increase in liquidity and potential for price improvement. 
+\subsection{!!Order Ring!!\label{sec:order_ring}}
+!!Loopring orders!! são expressas no que chamamos de Modelo Unidirecional de Ordens (UDOM)\cite{coinport2014udom}. UDOM expressa as ordens como pedidos de troca de tokens, \verb|montanteV|/\verb|montanteC|, (montante para venda/compra) em vez de licitações e solicitações. Uma vez que cada ordem é apenas uma taxa de câmbio entre dois tokens, uma característica poderosa do protocolo é a capacidade de misturar e corresponder várias ordens no !!comércio circular!!. Usando até 16 ordens em vez de um único par de troca, existe um aumento dramático de liquidez e uma potencial melhoria do preço.
+%Loopring orders are expressed in what we call a Unidirectional Order Model (UDOM)\cite{coinport2014udom}. UDOM expresses orders as token exchange requests, \verb|amountS|/\verb|amountB|, (amount to sell/buy)  instead of bids and asks. Since every order is just an exchange rate between two tokens, a powerful feature of the protocol is the mixing and matching of multiple orders in circular trade. By using up to 16 orders instead of a single trading pair, there is a dramatic increase in liquidity and potential for price improvement. 
 
 \begin{center}
 \begin{figurehere}
@@ -211,20 +212,20 @@ Loopring orders are expressed in what we call a Unidirectional Order Model (UDOM
   \node [order] (order2) 
  {%
  \begin{tabular}{l}
-  \textbf{ORDER\#2}\\
-  \textbf{owner: Y}\\
-  \textbf{amountS: 9B}\\
-  \textbf{amountB: 12C}
+  \textbf{ORDEM\#2}\\
+  \textbf{titular: Y}\\
+  \textbf{montanteV: 9B}\\
+  \textbf{montanteC: 12C}
  \end{tabular}
  };
  
   \node [order, below of=order2, xshift=-3.5cm] (order1) 
  {%
  \begin{tabular}{l}
-  \textbf{ORDER\#1}\\
-  \textbf{owner: X}\\
-  \textbf{amountS: 10000A}\\
-  \textbf{amountB: 2B}
+  \textbf{ORDEM\#1}\\
+  \textbf{titular: X}\\
+  \textbf{montanteV: 10000A}\\
+  \textbf{montanteC: 2B}
  \end{tabular}
  };
  
@@ -232,10 +233,10 @@ Loopring orders are expressed in what we call a Unidirectional Order Model (UDOM
   \node [order, below of=order2, xshift=3.5cm] (order3) 
  {%
  \begin{tabular}{l}
-  \textbf{ORDER\#3}\\
-  \textbf{owner: Z}\\
-  \textbf{amountS: 100C}\\
-  \textbf{amountB: 160A}
+  \textbf{ORDEM\#3}\\
+  \textbf{titular: Z}\\
+  \textbf{montanteV: 100C}\\
+  \textbf{montanteC: 160A}
  \end{tabular}
  };
  
@@ -245,13 +246,14 @@ Loopring orders are expressed in what we call a Unidirectional Order Model (UDOM
 
 \end{tikzpicture}
 
-\caption{An order-ring of 3 orders}
+\caption{!!An order-ring of 3 orders!!}
 \label{fig:ring}
 \end{figurehere}
 \end{center}
 
 
-The above figure shows an order-ring of 3 orders. Each order's token to sell (\verb|tokenS|) is another order's token to buy (\verb|tokenB|). It creates a loop that allows each order to exchange their desired tokens without requiring an opposing order for its pair. Traditional order pair trades can, of course, still be executed, in what is essentially a special case of an order-ring. 
+A figura acima representa uma !!order-ring of 3 orders". Cada ordem para vender um token (\verb|tokenV|) é outra ordem para comprar um token (\verb|tokenC|). É criado um loop que permite que cada ordem seja trocada pelo token desejado sem requerer uma oferta oposta pelo seu par. Claro que as ordens tradicionais também podem ser executadas, mas neste caso, trata-se de um caso especial de uma !!"order ring"!!.
+%The above figure shows an order-ring of 3 orders. Each order's token to sell (\verb|tokenS|) is another order's token to buy (\verb|tokenB|). It creates a loop that allows each order to exchange their desired tokens without requiring an opposing order for its pair. Traditional order pair trades can, of course, still be executed, in what is essentially a special case of an order-ring. 
 
 \begin{definition}[order-ring] Let $C_{0}$, $C_{1}$, $\cdots$, $C_{n-1}$ be $n$ different tokens, $O_{0\rightarrow 1}$, $\cdots$, $O_{i\rightarrow i\oplus 1}$, $\cdots$, $O_{n-1 \rightarrow 0}$ be $n$ orders. Those orders can form a order-ring for trading:
 $$O_{0\rightarrow 1} \rightarrow \cdots \rightarrow O_{i\rightarrow i\oplus 1} \rightarrow \cdots \rightarrow O_{n-1\rightarrow 0} \text{, }$$

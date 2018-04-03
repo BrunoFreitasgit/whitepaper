@@ -255,42 +255,50 @@ Loopring não é uma DEX, mas um protocolo modular para construir DEXs em múlti
 A figura acima representa uma !!order-ring of 3 orders". Cada ordem para vender um token (\verb|tokenV|) é outra ordem para comprar um token (\verb|tokenC|). É criado um loop que permite que cada ordem seja trocada pelo token desejado sem requerer uma oferta oposta pelo seu par. Claro que as ordens tradicionais também podem ser executadas, mas neste caso, trata-se de um caso especial de uma !!"order ring"!!.
 %The above figure shows an order-ring of 3 orders. Each order's token to sell (\verb|tokenS|) is another order's token to buy (\verb|tokenB|). It creates a loop that allows each order to exchange their desired tokens without requiring an opposing order for its pair. Traditional order pair trades can, of course, still be executed, in what is essentially a special case of an order-ring. 
 
-\begin{definition}[order-ring] Let $C_{0}$, $C_{1}$, $\cdots$, $C_{n-1}$ be $n$ different tokens, $O_{0\rightarrow 1}$, $\cdots$, $O_{i\rightarrow i\oplus 1}$, $\cdots$, $O_{n-1 \rightarrow 0}$ be $n$ orders. Those orders can form a order-ring for trading:
+\begin{definition}[ordem-circular] Que $C_{0}$, $C_{1}$, $\cdots$, $C_{n-1}$ sejam $n$ tokens diferentes, $O_{0\rightarrow 1}$, $\cdots$, $O_{i\rightarrow i\oplus 1}$, $\cdots$, $O_{n-1 \rightarrow 0}$ sejam $n$ ordens. Estas ordens podem formar um pedido circular para negociação:
 $$O_{0\rightarrow 1} \rightarrow \cdots \rightarrow O_{i\rightarrow i\oplus 1} \rightarrow \cdots \rightarrow O_{n-1\rightarrow 0} \text{, }$$
-where $n$ is the length of the order-ring, and $i\oplus 1 \equiv i+1 \mod n$.
+onde $n$ é o comprimento do pedido circular, e $i\oplus 1 \equiv i+1 \mod n$.
 \end{definition}
 
-An order-ring is valid when all component transactions can be executed at an exchange rate equal to or better than the original rate specified implicitly by the user. To verify order-ring validity, Loopring protocol smart contracts must receive order-rings from ring-miners where the product of the original exchange rates of all orders is equal to or greater than 1.
+Uma ordem circular é valida quando todos as transações constituintes podem ser executadas a uma taxa de câmbio igual ou melhor do que a taxa original especificada implicitamente pelo utilizador. Para verificar a validade da ordem circular, os contratos inteligentes do protocolo Loopring têm de receber ordens circulares dos "ring-miners", onde o produto da taxa de câmbio original de todas as ordens é igual ou maior do que 1.
+%An order-ring is valid when all component transactions can be executed at an exchange rate equal to or better than the original rate specified implicitly by the user. To verify order-ring validity, Loopring protocol smart contracts must receive order-rings from ring-miners where the product of the original exchange rates of all orders is equal to or greater than 1.
 
-Let's assume Alice and Bob want to trade their token \verb|A| and \verb|B|. Alice has 15 token \verb|A| and she wants 4 token \verb|B| for them; Bob has 10 token \verb|B|  and he wants 30 token \verb|A| for them.
+Vamos assumir que a Alice e o Bruno querem trocar os seus tokens \verb|A| e \verb|B|. A Alice tem 15 tokens \verb|A| e quer trocar 4 tokens \verb|B| por eles; O Bruno tem 10 tokens \verb|B| e quer trocar 30 tokens \verb|A| por eles.
+%Let's assume Alice and Bob want to trade their token \verb|A| and \verb|B|. Alice has 15 token \verb|A| and she wants 4 token \verb|B| for them; Bob has 10 token \verb|B|  and he wants 30 token \verb|A| for them.
 
-Who is buying and who is selling? This depends only on the asset we fix to give price quotations. If token \verb|A| is the reference, then Alice is buying token \verb|B| for the price of ${15 \over 4} = 3.75$\verb|A|, while Bob is selling 10 token \verb|B| for the price of ${30 \over 10} = 3.00$\verb|A|. In the case of fixing token \verb|B| as reference, we say that Alice is selling 15 token \verb|A| for the price of ${4\over 15}=0.26666667$\verb|B| and Bob is buying 10 token \verb|A| for the price of ${10 \over 30}=0.33333334$\verb|B|. Hence, who's the buyer or seller is arbitrary.
+Quem é que está a comprar e quem é que está a vender? Isso apenas depende do ativo que fixamos para dar as cotações. Se a referência for o token \verb|A|, então é a Alice que está a comprar o token \verb|B| pelo preço de ${15 \over 4} = 3.75$\verb|A|, enquanto que o Bruno está a vender 10 tokens \verb|B| pelo preço de ${30 \over 10} = 3.00$\verb|A|. No caso de fixarmos o token \verb|B| como referência, dizemos que é a Alice que está a vender 15 tokens \verb|A| pelo preço de ${4\over 15}=0.26666667$\verb|B|, e o Bruno está a comprar 10 tokens \verb|A| pelo preço de ${10 \over 30}=0.33333334$\verb|B|. Daí se diz que a classificação de comprador e vendedor é arbitrária.
+%Who is buying and who is selling? This depends only on the asset we fix to give price quotations. If token \verb|A| is the reference, then Alice is buying token \verb|B| for the price of ${15 \over 4} = 3.75$\verb|A|, while Bob is selling 10 token \verb|B| for the price of ${30 \over 10} = 3.00$\verb|A|. In the case of fixing token \verb|B| as reference, we say that Alice is selling 15 token \verb|A| for the price of ${4\over 15}=0.26666667$\verb|B| and Bob is buying 10 token \verb|A| for the price of ${10 \over 30}=0.33333334$\verb|B|. Hence, who's the buyer or seller is arbitrary.
 
-In the first situation Alice is willing to pay a higher price ($3.75$\verb|A|) than the price Bob is selling his tokens for ($3.00$\verb|A|), while in the second situation Bob is willing to pay a higher price ($0.33333334$\verb|B|) than the price Alice is selling her tokens for ($0.26666667$\verb|B|). It is clear that a trade is possible whenever the buyer is willing to pay an equal or higher price than the seller's price.
+Na primeira situação, a Alice está disposta a pagar um preço maior ($3.75$\verb|A|) do que o preço pelo qual o Bruno está a vender os seus tokens ($3.00$\verb|A|). Enquanto que, na segunda situação, o Bruno está disposto a pagar mais ($0.33333334$\verb|B|) do que o preço pelo qual a Alice está a vender os seus tokens ($0.26666667$\verb|B|). É evidente que uma troca é possível sempre que o comprador está disposto a pagar um preço igual ou maior do que o preço dado pelo vendedor.
+%In the first situation Alice is willing to pay a higher price ($3.75$\verb|A|) than the price Bob is selling his tokens for ($3.00$\verb|A|), while in the second situation Bob is willing to pay a higher price ($0.33333334$\verb|B|) than the price Alice is selling her tokens for ($0.26666667$\verb|B|). It is clear that a trade is possible whenever the buyer is willing to pay an equal or higher price than the seller's price.
 
 \begin{equation}
 {{15\over 4} \over {30\over 10}} = {{10\over 30} \over {4\over 15}}={15 \over 4} \cdot {10 \over 30} = 1.25 > 1
 \end{equation}
 
-Thus, for a set of $n$ orders to be able to be filled, fully or partially, we need to know if the product of each one of the exchange rates as buy orders results in a number greater or equal to 1. If so, all the $n$ orders can be either partially, or totally filled \cite{supersymmetry}.
+Assim, para um conjunto de $n$ ordens serem preenchidas, total ou parcialmente, precisamos de saber se o produto de cada uma das taxas de câmbio, como ordens de compra, resulta num numero maior ou igual a 1. Se assim for, todas as $n$ ordens podem ser parcialmente ou totalmente preenchidas \cite{supersymmetry}.
+%Thus, for a set of $n$ orders to be able to be filled, fully or partially, we need to know if the product of each one of the exchange rates as buy orders results in a number greater or equal to 1. If so, all the $n$ orders can be either partially, or totally filled \cite{supersymmetry}.
 
-If we introduce a third counterparty, Charlie, such that  Alice wants to give $x_1$ token \verb|A| and receive $y_1$ token \verb|B|, Bob wants to give $x_2$ token \verb|B| and receive $y_2$ token \verb|C|, and Charlie wants to give $x_3$ token \verb|C| and receive $y_3$ token \verb|A|. The necessary tokens are present, and the trade is possible if:
+Se introduzirmos um terceiro elemento, Carlos, podemos imaginar a seguinte situação.A Alice quer dar $x_1$ token \verb|A| e receber $y_1$ tokens \verb|B|, o Bruno quer dar $x_2$ tokens \verb|B| e receber $y_2$ tokens \verb|C|, e o Carlos quer dar $x_3$ tokens \verb|C| e receber $y_3$ tokens \verb|A|. Os tokens necessários estão presentes e a troca é possível se:
+%If we introduce a third counterparty, Charlie, such that  Alice wants to give $x_1$ token \verb|A| and receive $y_1$ token \verb|B|, Bob wants to give $x_2$ token \verb|B| and receive $y_2$ token \verb|C|, and Charlie wants to give $x_3$ token \verb|C| and receive $y_3$ token \verb|A|. The necessary tokens are present, and the trade is possible if:
 
 \begin{equation}
 {{x1 \cdot x_2 \cdot x_3 \over y_1 \cdot y_2 \cdot y_3} \geq 1}
 \end{equation}
 
 
-See section \ref{anatomy} for more details about Loopring's orders.
+Ver secção \ref{anatomy} para mais detalhes sobre as ordens no Loopring.
+%See section \ref{anatomy} for more details about Loopring's orders.
 
 
 
-\section{Ecosystem Participants\label{sec:ecosystem}}
-The following ecosystem participants jointly provide all functionalities a centralized exchange has to offer. 
+\section{Participantes do Ecossistema\label{sec:ecosystem}}
+Os seguintes participantes do ecossistema oferecem todas as funcionalidades de uma "exchange" centralizada tem para oferecer.
+%The following ecosystem participants jointly provide all functionalities a centralized exchange has to offer. 
 
 \begin{itemize}
-
-\item \textbf{Wallets}: A common wallet service or interface that gives users access to their tokens and a way to send orders to the Loopring network. Wallets will be incentivized to produce orders by sharing fees with ring-miners (see section \ref{sec:token}). With the belief that the future of trading will take place within the safety of individual user's wallets, connecting these liquidity pools through our protocol is paramount.
+\item \textbf{Carteiras}: Um serviço, ou interface, comum de carteira que oferece acesso aos utilizadores aos seus tokens, e uma forma de enviar ordens para a rede do Loopring. As carteiras vão ser incentivadas para produzirem ordens através da partilha de taxas com os "ring-miners" (ver secção \ref{sec:token}). Com a crença de que o futuro da negociação tenha lugar no âmbito da segurança oferecida pela carteira individual, conectar estes "pools" de liquidez através do nosso protocolo é fundamental.
+%\item \textbf{Wallets}: A common wallet service or interface that gives users access to their tokens and a way to send orders to the Loopring network. Wallets will be incentivized to produce orders by sharing fees with ring-miners (see section \ref{sec:token}). With the belief that the future of trading will take place within the safety of individual user's wallets, connecting these liquidity pools through our protocol is paramount.
 
 \item \textbf{Consortium Liquidity Sharing Blockchain/Relay-Mesh}: A relay-mesh network for order \& liquidity sharing. When nodes run Loopring relay software, they are able to join an existing network and share liquidity with other relays over a consortium blockchain. The consortium blockchain we are building as a first implementation has near real time order sharing (1-2 second blocks), and trims old history to allow for faster download by new nodes. Notably, relays need not join this consortium; they can act alone and not share liquidity with others, or, they can start and manage their own liquidity sharing network.
 
@@ -522,6 +530,7 @@ xshift=0.1cm,
 scale=0.7,
 minimum width=3.2cm,
 minimum height=15.6cm] (blockchain) {\parbox[b][15cm]{1.3cm}{blockchain}};
+
 % blockchain accounts
   \node [account, right of=user1, xshift=1cm] (account1)  {accountX};
   \node [account, right of=user2, xshift=1cm] (account2)  {accountY};
@@ -616,7 +625,7 @@ minimum height=15.6cm] (blockchain) {\parbox[b][15cm]{1.3cm}{blockchain}};
 
 % Em Português:
 
-\section{Flexibilidade de Operações\label{sec:business_model)}
+\section{Flexibilidade de Operações\label{sec:business_model)}}
 
 O protocolo Loopring permite a todos os seus participantes um elevado grau de flexibilidade. Estes estão habilitados a implementar novos modelos de negócio para melhorar a experiência de todos os utilizadores e podem ser recompensados em LRx mediante o volume de participação ou outro tipo de métricas relacionadas com este processo (se assim o pretenderem). Este ecossistema é modular e capaz de suportar a participação de uma imensidade de aplicações. 
 
